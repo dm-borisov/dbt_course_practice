@@ -51,3 +51,70 @@ sources:
             period: day
           filter: current_timestamp::date - book_date::date < 3
         loaded_at_field: book_date::timestamp
+      - name: boarding_passes
+        description: Посадочные талоны
+        columns:
+          - name: ticke_no
+            description: Номер билета
+          - name: flight_id
+            description: Идентификатор рейса
+          - name: boarding_no
+            description: Номер посадочного талона
+          - name: seat_no
+            description: Номер места
+      - name: flights
+        description: Рейсы
+        columns:
+          - name: flight_id
+            description: Идентификатор рейса
+          - name: flight_no
+            description: Номер рейса
+          - name: scheduled_departure
+            description: Вылет по расписанию
+          - name: scheduled_arrival
+            description: Прилет по расписанию
+          - name: actual_departure
+            description: Фактический вылет
+          - name: actual_arrival
+            description: Фактический прилет
+          - name: departure_airport
+            description: Аэропорт отправления
+          - name: arrival_airport
+            description: Аэропорт прибытия
+          - name: status
+            description: Статус рейса
+          - name: aircraft_code
+            description: Код самолета
+        freshness:
+          warn_after:
+            count: 6
+            period: hour
+          error_after:
+            count: 1
+            period: day
+          filter: current_timestamp::date - actual_arrival::date < 3
+        loaded_at_field: actual_arrival::timestamp
+      - name: ticket_flights
+        description: Соединение перелетов с билетами
+        columns:
+          - name: ticket_no
+            description: Номер билета
+          - name: flight_id
+            description: Идентификатор билета
+          - name: fare_conditions
+            description: Класс обслуживания
+          - name: amount
+            description: Стоимость перелета
+      - name: tickets
+        description: Билеты
+        columns:
+          - name: ticket_no
+            description: Номер билета
+          - name: book_ref
+            description: Номер бронирования
+          - name: passenger_id
+            description: Идентификатор пассажира
+          - name: passenger_name
+            description: Имя пассажира
+          - name: contact_data
+            description: Контактные данные пассажира
