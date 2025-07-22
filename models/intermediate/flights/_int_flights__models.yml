@@ -30,3 +30,35 @@ models:
         meta:
           owner: finance_team
         quote: false
+  - name: fct_ticket_flights
+    description: Факт перелетов
+    docs:
+      show: true
+      node_color: green
+    config:
+      contract: { enforced: true }
+    meta:
+      owner: "example@mail.com"
+      contact_tg: example
+      status: in_dev
+    columns:
+      - name: ticket_no
+        data_type: bpchar(13)
+        constraints:
+          - type: not_null
+      - name: flight_id
+        data_type: int4
+        constraints:
+          - type: not_null
+      - name: fare_conditions
+        data_type: varchar(10)
+        constraints:
+          - type: not_null
+          - type: check
+            expression: "fare_conditions IN ('Economy', 'Comfort', 'Business')"
+      - name: amount
+        data_type: numeric(10, 2)
+        constraints:
+          - type: not_null
+          - type: check
+            expression: "amount > 0"
