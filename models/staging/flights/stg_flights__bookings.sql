@@ -1,6 +1,7 @@
 {{
     config(
-        materialized = 'table'
+        materialized = 'incremental',
+        incremental_strategy = 'append'
     )
 }}
 select
@@ -9,3 +10,7 @@ select
     "total_amount"
 from
     {{ source('demo_src', 'bookings') }}
+{% if is_incremental() %}
+where 
+    ('0x' || book_ref)::bigint > (select max(('0x' || book_ref)::bigint) from {{ this }})
+{% endif %}
