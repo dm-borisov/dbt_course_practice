@@ -9,10 +9,10 @@ models:
       - v: 1
     config:
       contract: { enforced: true }
-    meta:
-      owner: "example@mail.com"
-      contact_tg: example
-      status: in_dev
+      meta:
+        owner: "example@mail.com"
+        contact_tg: example
+        status: in_dev
     columns:
       - name: book_ref
         data_type: varchar(8)
@@ -30,6 +30,53 @@ models:
         meta:
           owner: finance_team
         quote: false
+  - name: fct_flights
+    description: Факт полетов
+    docs:
+      show: true
+      node_color: green
+    config:
+      meta:
+        owner: "example@mail.com"
+        contact_tg: example
+        status: in_dev
+      columns:
+        - name: flight_id
+          data_type: int4
+          constraints:
+            - type: not_null
+        - name: flight_no
+          data_type: bpchar(6)
+          constraints:
+            - type: not_null
+        - name: scheduled_departure
+          data_type: timestampz
+          constraints:
+            - type: not_nul
+        - name: scheduled_arrival
+          data_type: timestampz
+          constraints:
+            - type: not_null
+        - name: departure_airport
+          data_type: bpchar(3)
+          constraints:
+            - type: not_null
+        - name: arrival_airport
+          data_type: bpchar(3)
+          constraints:
+            - type: not_null
+        - name: status
+          data_type: varchar(20)
+          constraints:
+            - type: not_null
+        - name: aircraft_code
+          data_type: bpchar(3)
+          constraints:
+            - type: not_nul
+        - name: actual_departure
+          data_type: timestampz
+        - name: actual_arrival
+          data_type: timestampz
   - name: fct_ticket_flights
     description: Факт перелетов
     docs:
@@ -37,10 +84,10 @@ models:
       node_color: green
     config:
       contract: { enforced: true }
-    meta:
-      owner: "example@mail.com"
-      contact_tg: example
-      status: in_dev
+      meta:
+        owner: "example@mail.com"
+        contact_tg: example
+        status: in_dev
     columns:
       - name: ticket_no
         data_type: bpchar(13)
