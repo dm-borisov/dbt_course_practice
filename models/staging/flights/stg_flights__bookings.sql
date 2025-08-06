@@ -1,16 +1,13 @@
 {{
     config(
-        materialized = 'incremental',
+        materialized = 'table',
         incremental_strategy = 'append'
     )
 }}
 select
     "book_ref",
     "book_date",
-    "total_amount"
+    {{ kopeck_to_ruble("total_amount") }} as total_amount
 from
     {{ source('demo_src', 'bookings') }}
-{% if is_incremental() %}
-where 
-    ('0x' || book_ref)::bigint > (select max(('0x' || book_ref)::bigint) from {{ this }})
-{% endif %}
+{{ limit_data_dev('book_date', 3000) }}
